@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		2519EE0C2ED17F7300B36982 /* HabitLoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitLoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		25365F562ED1A4AD005DF031 /* Variables.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Variables.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +33,7 @@
 		2519EE032ED17F7300B36982 = {
 			isa = PBXGroup;
 			children = (
+				25365F572ED1A4AD005DF031 /* Practices */,
 				2519EE0E2ED17F7300B36982 /* HabitLoop */,
 				2519EE0D2ED17F7300B36982 /* Products */,
 			);
@@ -43,6 +45,14 @@
 				2519EE0C2ED17F7300B36982 /* HabitLoop.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		25365F572ED1A4AD005DF031 /* Practices */ = {
+			isa = PBXGroup;
+			children = (
+				25365F562ED1A4AD005DF031 /* Variables.playground */,
+			);
+			path = Practices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
