@@ -9,32 +9,49 @@ import SwiftUI
 
 struct AboutView: View {
     var body: some View {
-        VStack {
-            Text("About App")
-            .font(.title)
-            .fontWeight(.bold)
-            .foregroundColor(.blue)
-            .padding()
+        NavigationStack {
+            VStack {
+                
+                Text("About HabitLoop")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+                .padding(.top, 250)
+                .padding(.bottom, 50)
 
-            Text("This app is designed to help users manage their tasks efficiently and stay organized throughout the day.")
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-                .padding()
-        }
-        HStack {
-            Image(systemName: "cloud")
-                .font(.system(size: 30))
-                .foregroundColor(.green)
+                Text("This app is designed to help users manage their tasks efficiently and stay organized throughout the day.")
+                    .font(.system(size: 20))
+                    
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 50)
+            }
+            HStack {
+                Image(systemName: "leaf.circle.fill")
+                    .font(.system(size: 30))
+                    .foregroundColor(.brown)
+                
+                Image(systemName: "globe.americas.fill")
+                    .font(.system(size: 30))
+                    .foregroundColor(.blue)
 
-            Image(systemName: "person")
-                .font(.system(size: 30))
-                .foregroundColor(.red)
+                Image(systemName: "apple.meditate.circle.fill")
+                    .font(.system(size: 30))
+                    .foregroundColor(.green)
 
-            Image(systemName: "leaf")
-                .font(.system(size: 30))
-                .foregroundColor(.purple)
-        }
+            }
+            
+            Spacer()
+            
+            NavigationLink(destination: ReservationForm()) {
+                Text("Start")
+                    .font(.title3)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(99)
+            }
+        } .padding(.horizontal)
     }
 }
 
