@@ -28,7 +28,7 @@ struct ReservationForm: View {
         count == 1 ? "Time" : "Times"
     }
     
-    // 2) price estimation
+    // 2) complexity estimation
     func estimateComplexity(baseScore: Double, subtaskScore: Double) -> Double {
         /*
         adult is 10
