@@ -12,18 +12,19 @@ struct MenuView: View {
     @State private var showMessage = false
     @State private var showAffordableOnly = false
     @State private var showDesserts = false
+    @State private var showBadgeOnly = false
     
     // dictionary
     let menuItems = [
         // key:value
         "Cheese Pizza": 12.99,
-        "Pepperoni Pizza": 14.99,
+        "Pepperoni Pizza": 9.99,
         "BBQ Chicken Pizza": 19.99,
         "Spaghetti": 8.99,
         "Lasagna": 12.99,
         // "Chicken Alfredo": 14.99,
         // "Beef Stroganoff": 16.99,
-        "Margherita Pizza": 11.99,
+        "Margherita Pizza": 9.99,
         // "Veggie Pizza": 13.99,
         "Four Cheese Pizza": 15.99
     ]
@@ -44,9 +45,17 @@ struct MenuView: View {
     
     // computed property #2
     var displayMenu: [(name: String, price: Double)] {
-        showAffordableOnly
-        ? sortedMenu.filter{ $0.price < 13.0 }
-        : sortedMenu
+        var sortedList = sortedMenu
+        
+        if showAffordableOnly {
+            sortedList = sortedList.filter { $0.price < 10.0 }
+        }
+        
+        if showBadgeOnly {
+            sortedList = sortedList.filter { $0.price > 10.0 }
+        }
+        
+        return sortedList
     }
     
     // computed property #3
@@ -54,6 +63,23 @@ struct MenuView: View {
         let prices = menuItems.values
         let total = prices.reduce(0, +)
         return total / Double(prices.count)
+    }
+    
+    // count premium items
+    var premiumItemCount: Int {
+        return displayMenu.filter { $0.price >= 10.0 }.count
+    }
+    
+    // count regular items
+    var regularItemCount: Int {
+        return displayMenu.filter { $0.price < 10.0 }.count
+    }
+    
+    // calc total price
+    var totaalPrice: Double {
+        return displayMenu.reduce(0.0) { total, item in
+            total + item.price
+        }
     }
     
     // functions
@@ -87,8 +113,7 @@ struct MenuView: View {
     var body: some View {
         
         // 1. convert dictionary into a sorted array
-        // let sortedMenu = menuItems.sorted { $0.value < $1.value }
-        
+        // let sortedMenu = menuItems.sorted { $0.value < $1.value
         VStack{
             HStack {
                 Image(systemName: "fork.knife.circle")
@@ -97,17 +122,18 @@ struct MenuView: View {
                     .font(.system(size: 30))
                 
                 Text("Habit Loop")
-                    .font(.title3)
+                    .foregroundColor(.black)
+                    .font(.title2)
                     .bold()
             }
             
             VStack {
-                Toggle("Show welcome message", isOn: $showMessage)
-                    .padding()
+                // Toggle("Show welcome message", isOn: $showMessage)
                 
-                Toggle("Show only affordable items < $13.00", isOn: $showAffordableOnly)
-                    .padding()
-            }
+                Toggle("Show only affordable items < $10.00", isOn: $showAffordableOnly)
+                    
+                Toggle("Show only premium dishes", isOn: $showBadgeOnly)
+            } .padding(.horizontal)
             
             if showMessage {
                 Text("Welcome to Habit loop!")
@@ -130,48 +156,70 @@ struct MenuView: View {
             }
             
             List {
-                ForEach(displayMenu, id: \.name){ name, price in
+                ForEach(displayMenu, id: \.name){ item in
                     /*Text(name)
                     Text("$\(price, specifier: "%.2f")")*/
-                    HStack{
-                        Text(name)
-                        Spacer()
-                        Text("$\(price, specifier: "%.2f")")
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.vertical, 8)
-                }
+//                    HStack{
+//                        Text(name)
+//                        Spacer()
+//                        Text("$\(price, specifier: "%.2f")")
+//                            .foregroundColor(.secondary)
+//                    }
+//                    .padding(.vertical, 8)
+                    MenuItemRowView(name: item.name, price: item.price)
+                } 
             }
             
             Section {
                 VStack {
+//                    HStack {
+//                        Text("Total Items:")
+//                        Spacer()
+//                        Text("\(getTotalItems())")
+//                            .foregroundColor(.secondary)
+//                    }
                     HStack {
-                        Text("Total Items:")
+                        Text("Premium Items:")
                         Spacer()
-                        Text("\(getTotalItems())")
+                        Text("\(premiumItemCount)")
                             .foregroundColor(.secondary)
                     }
                     
                     HStack {
-                        Text("Highest Price:")
+                        Text("Regular Items:")
                         Spacer()
-                        Text("$\(highestPrice(), specifier: "%.2f")")
+                        Text("\(regularItemCount)")
                             .foregroundColor(.secondary)
                     }
                     
                     HStack {
-                        Text("Lowest Price:")
+                        Text("Total Price:")
                         Spacer()
-                        Text("$\(lowestPrice(), specifier: "%.2f")")
+                        Text("$\(totaalPrice, specifier:"%.2f")")
                             .foregroundColor(.secondary)
                     }
                     
-                    HStack {
-                        Text("Average Price:")
-                        Spacer()
-                        Text("$\(averagePrice, specifier:"%.2f")")
-                            .foregroundColor(.secondary)
-                    }
+//                    HStack {
+//                        Text("Highest Price:")
+//                        Spacer()
+//                        Text("$\(highestPrice(), specifier: "%.2f")")
+//                            .foregroundColor(.secondary)
+//                    }
+//                    
+//                    HStack {
+//                        Text("Lowest Price:")
+//                        Spacer()
+//                        Text("$\(lowestPrice(), specifier: "%.2f")")
+//                            .foregroundColor(.secondary)
+//                    }
+//                    
+//                    HStack {
+//                        Text("Average Price:")
+//                        Spacer()
+//                        Text("$\(averagePrice, specifier:"%.2f")")
+//                            .foregroundColor(.secondary)
+//                    }
+                    
                 }
             } .padding()
         }

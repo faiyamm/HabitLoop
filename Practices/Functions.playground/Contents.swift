@@ -71,3 +71,37 @@ func welcomeStudent(name: String) -> String {
 }
 
 print(welcomeStudent(name: "Sofia"))
+
+// class 102 3
+
+func greetCustomer(_ name:String) {
+    print("Welcome, \(name)!")
+}
+greetCustomer("Isai")
+
+func printMenuItem(_ name: String, _ price: Double) {
+    print("The dish \(name): $\(price)")
+}
+printMenuItem("Pizza", 9.99)
+
+func totalWithTax(_ price: Double) -> Double {
+    return price * 1.08
+}
+let amount = totalWithTax(100)
+print(amount)
+
+let menu = [
+    "Pizza": 9.90,
+    "Soup": 4.50,
+    "Steak": 14.99
+]
+
+for (name, price) in menu {
+    printMenuItem(name,price)
+}
+
+func renderRow(_ name: String, _ price: Double) {
+    print ("Row -> \(name), $\(price)")
+}
+
+renderRow("Tacos", 7.50)

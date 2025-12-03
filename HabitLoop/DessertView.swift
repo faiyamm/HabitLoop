@@ -30,6 +30,7 @@ struct DessertView: View {
                     Text(name)
                     Spacer()
                     Text("$\(price, specifier: "%.2f")")
+                        .foregroundColor(.secondary)
                 }
             }
         }
