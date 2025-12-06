@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		2519EE0C2ED17F7300B36982 /* HabitLoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitLoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		251D69AD2EE117E500F46C0C /* OOP.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = OOP.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		25365F562ED1A4AD005DF031 /* Variables.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Variables.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2589789A2ED7DCB300CCABE8 /* dataCollections.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = dataCollections.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		258FA8A02ED254D600CA02FF /* ifStatement.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ifStatement.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -57,6 +58,7 @@
 				258FA8A02ED254D600CA02FF /* ifStatement.playground */,
 				259DA3752ED53DD500FEB4F6 /* Functions.playground */,
 				2589789A2ED7DCB300CCABE8 /* dataCollections.playground */,
+				251D69AD2EE117E500F46C0C /* OOP.playground */,
 			);
 			path = Practices;
 			sourceTree = "<group>";

@@ -9,12 +9,12 @@ import SwiftUI
 
 struct ReservationForm: View {
     // constants
-    let appName = "Habit Loop"
+    let appName = "Setup Details"
     let maxFrequency = 7
     let maxSubtasks = 4
     
     // state variable - if the value changes, the view updates
-    @State private var userName = ""
+    @State private var habitName = ""
     @State private var habitFrequency = 1
     @State private var phoneNumber = ""
     @State private var previewText = ""
@@ -22,6 +22,7 @@ struct ReservationForm: View {
     @State private var taskCategory = ""
     @State private var isDailyGoal = false
     @State private var isSubtaskActive = false
+    @State private var showWarning = false
     
     // 1) labels for frequency
     func frequencyLabel(_ count: Int) -> String {
@@ -31,8 +32,8 @@ struct ReservationForm: View {
     // 2) complexity estimation
     func estimateComplexity(baseScore: Double, subtaskScore: Double) -> Double {
         /*
-        adult is 10
-        child is 5.0
+         baseScore is 10.0
+         subtaskScore is 5.0
          
          1. create the constant
          2. add the param
@@ -50,34 +51,28 @@ struct ReservationForm: View {
     }
 
     var body: some View {
-        // header
-        Section{
-            HStack {
-                Image(systemName: "brain.head.profile")
-                    .imageScale(.large)
-                    .foregroundColor(.blue)
-                    .font(.system(size: 20))
-                
-                Text(appName)
-                    .font(.title3)
-                    .bold()
-            }
-        }
         
         Form{
-            // reservation details
-            Section(header: Text("Habit Setup Details")){
-                TextField("Name", text: $userName)
+            // setup details
+            Section(header: Text("Task Setup")){
+                TextField("Enter Habit Name", text: $habitName)
                 .textInputAutocapitalization(.words)
                 .autocorrectionDisabled(true)
+                .onChange(of: habitName) {
+                    if (habitName.isEmpty) {
+                        if !showWarning {
+                            showWarning = true
+                        }
+                    }
+                }
                 
-                if userName.isEmpty {
-                    Text("Please enter a name.")
+                if habitName.isEmpty && showWarning {
+                    Text("Please enter a habit name")
                         .font(.footnote)
                         .foregroundColor(.red)
                 }
                 
-                TextField("Category (Work, Health, Personal, etc): ", text: $taskCategory)
+                TextField("Category (Work, Health, Personal, etc.): ", text: $taskCategory)
                 
                 // outdoor seating toggle
                 Toggle("Set as a daily goal?", isOn: $isDailyGoal)
@@ -97,18 +92,6 @@ struct ReservationForm: View {
                 if isSubtaskActive == true {
                     Stepper("Subtasks: \(numberSubtasks)", value: $numberSubtasks, in: 0...maxSubtasks)
                 }
-                
-                // phone number
-                Section(header: Text("Account Information")) {
-                    TextField("Phone", text: $phoneNumber)
-                        .keyboardType(.phonePad)
-                }
-                
-                if phoneNumber.isEmpty {
-                    Text("Please enter your phone number.")
-                        .font(.footnote)
-                        .foregroundColor(.red)
-                }
             }
 
             // preview confirmation
@@ -116,7 +99,7 @@ struct ReservationForm: View {
                 Button("Preview Task Setup"){
                     previewText =
                     """
-                    Name: \(userName)
+                    Name: \(habitName)
                     Category: \(taskCategory)
                     Daily Goal: \(isDailyGoal)
                     \(frequencyLabel(habitFrequency)): \(habitFrequency)
@@ -132,8 +115,6 @@ struct ReservationForm: View {
                 }
             }
 
-
-            
             // summary
             Section(header: Text("Complexity Summary")) {
                 VStack(){
@@ -142,27 +123,25 @@ struct ReservationForm: View {
                         Text("Task Summary")
                             .font(.headline)
                         Spacer()
-                        Image(systemName: "pencil.and.list.clipboard")
-                    } .padding(.bottom, 15)
-                        .foregroundColor(.brown)
-                    HStack(){
-                        Text("Name: ")
-                        Spacer()
-                        Text("\(userName)")
-                            .foregroundColor(.secondary)
+                        Image(systemName: "chart.line.uptrend.xyaxis")
                     }
+                    .padding(.bottom, 15)
+                    .foregroundColor(.brown)
+                    
                     HStack(){
                         Text("Frequency: ")
                         Spacer()
                         Text("\(habitFrequency)")
                             .foregroundColor(.secondary)
                     }
+                    
                     HStack(){
                         Text("Subtasks: ")
                         Spacer()
                         Text("\(numberSubtasks)")
                             .foregroundColor(.secondary)
                     }
+                    
                     HStack(){
                         Text("Estimated Complexity Score: ")
                         Spacer()
@@ -172,7 +151,7 @@ struct ReservationForm: View {
                 
                 } .padding()
             }
-        }
+        } .navigationBarTitle("Set Up New Habit")
     }
 }
 

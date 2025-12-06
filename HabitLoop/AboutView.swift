@@ -16,12 +16,10 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.black)
-                .padding(.top, 250)
                 .padding(.bottom, 50)
 
                 Text("This app is designed to help users manage their tasks efficiently and stay organized throughout the day.")
                     .font(.system(size: 20))
-                    
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
                     .padding(.bottom, 50)
@@ -41,16 +39,6 @@ struct AboutView: View {
 
             }
             
-            Spacer()
-            
-            NavigationLink(destination: ReservationForm()) {
-                Text("Start")
-                    .font(.title3)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.black)
-                    .cornerRadius(99)
-            }
         } .padding(.horizontal)
     }
 }

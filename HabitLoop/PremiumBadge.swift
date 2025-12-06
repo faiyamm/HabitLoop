@@ -13,12 +13,8 @@ struct PremiumBadge: View {
         HStack {
             Image(systemName: "star.fill")
                 .foregroundColor(.yellow)
-            Text("Premium")
-                .font(.caption)
+                .font(Font.system(size: 15))
         }
-        .padding(5)
-        .background(Color.orange.opacity(0.2))
-        .cornerRadius(5)
         
     }
 }

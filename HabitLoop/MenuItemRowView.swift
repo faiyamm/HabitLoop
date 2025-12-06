@@ -15,13 +15,14 @@ struct MenuItemRowView: View {
         HStack {
             Text(name)
                 .font(Font.headline)
-            Spacer()
-            Text("\(price, specifier: "%.2f")")
-                .foregroundColor(.secondary)
             
             if price > 10 {
                 PremiumBadge()
             }
+            
+            Spacer()
+            Text("\(price, specifier: "%.2f")")
+                .foregroundColor(.secondary)
             
         } .padding()
     }

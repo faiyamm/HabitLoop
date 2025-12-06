@@ -9,24 +9,20 @@ import SwiftUI
 
 struct MenuView: View {
     // variable and constants
-    @State private var showMessage = false
-    @State private var showAffordableOnly = false
     @State private var showDesserts = false
-    @State private var showBadgeOnly = false
+    @State private var filterSelector: String = "All"
+    
+    let filterCategories: [String] = ["All", "Low", "High"]
     
     // dictionary
     let menuItems = [
         // key:value
-        "Cheese Pizza": 12.99,
-        "Pepperoni Pizza": 9.99,
-        "BBQ Chicken Pizza": 19.99,
-        "Spaghetti": 8.99,
-        "Lasagna": 12.99,
-        // "Chicken Alfredo": 14.99,
-        // "Beef Stroganoff": 16.99,
-        "Margherita Pizza": 9.99,
-        // "Veggie Pizza": 13.99,
-        "Four Cheese Pizza": 15.99
+        "Daily Standup": 12.99,
+        "30 Min Cardio": 19.99,
+        "Read 1 Chapter": 9.99,
+        "Budget Review": 8.99,
+        "Water Tracking": 12.99,
+        "Learning Swift": 15.99
     ]
     
     // computed property #1
@@ -47,11 +43,11 @@ struct MenuView: View {
     var displayMenu: [(name: String, price: Double)] {
         var sortedList = sortedMenu
         
-        if showAffordableOnly {
+        if filterSelector == "Low" {
             sortedList = sortedList.filter { $0.price < 10.0 }
         }
         
-        if showBadgeOnly {
+        if filterSelector == "High" {
             sortedList = sortedList.filter { $0.price > 10.0 }
         }
         
@@ -76,7 +72,7 @@ struct MenuView: View {
     }
     
     // calc total price
-    var totaalPrice: Double {
+    var totalScore: Double {
         return displayMenu.reduce(0.0) { total, item in
             total + item.price
         }
@@ -101,7 +97,7 @@ struct MenuView: View {
     // mini challenge
     func lowestPrice() -> Double{
         // menuItems.values.min() ?? 0.0
-        var lowest = 20.0
+        var lowest = 9999.99
         for item in displayMenu {
             if item.price < lowest {
                 lowest = item.price
@@ -111,118 +107,81 @@ struct MenuView: View {
     }
 
     var body: some View {
-        
         // 1. convert dictionary into a sorted array
         // let sortedMenu = menuItems.sorted { $0.value < $1.value
-        VStack{
-            HStack {
-                Image(systemName: "fork.knife.circle")
-                    .imageScale(.large)
-                    .foregroundColor(.orange)
-                    .font(.system(size: 30))
-                
-                Text("Habit Loop")
-                    .foregroundColor(.black)
-                    .font(.title2)
-                    .bold()
+        HStack {
+            ZStack {
+                HStack {
+                    Text(filterSelector)
+                        .foregroundColor(.white)
+                    Image(systemName: "chevron.up.chevron.down")
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(Color.black)
+                .cornerRadius(10)
+
+                Picker(selection: $filterSelector) {
+                    ForEach(filterCategories, id: \.self) { category in
+                        Text(category)
+                    }
+                } label: {
+                    Text("Filter Tasks")
+                }
+                .pickerStyle(.menu)
+                .frame(maxWidth: .infinity)
+                .opacity(0.1)
             }
-            
-            VStack {
-                // Toggle("Show welcome message", isOn: $showMessage)
-                
-                Toggle("Show only affordable items < $10.00", isOn: $showAffordableOnly)
-                    
-                Toggle("Show only premium dishes", isOn: $showBadgeOnly)
-            } .padding(.horizontal)
-            
-            if showMessage {
-                Text("Welcome to Habit loop!")
-                    .font(Font.title.bold())
-                    .foregroundStyle(Color.blue)
-                    .padding()
-            }
-            
-            Button("View Desserts") {
+            .fixedSize(horizontal: true, vertical: false)
+
+            Button("View SubTasks") {
                 showDesserts = true
                 print(showDesserts)
             }
+
             .foregroundColor(.white)
             .padding()
             .background(Color.black)
             .cornerRadius(10)
             .sheet(isPresented: $showDesserts) {
-                // add the view
                 DessertView()
             }
-            
-            List {
+        } .padding(.horizontal)
+        
+        
+        List {
+            Section(header: Text("Showing \(displayMenu.count) Tasks")) {
                 ForEach(displayMenu, id: \.name){ item in
-                    /*Text(name)
-                    Text("$\(price, specifier: "%.2f")")*/
-//                    HStack{
-//                        Text(name)
-//                        Spacer()
-//                        Text("$\(price, specifier: "%.2f")")
-//                            .foregroundColor(.secondary)
-//                    }
-//                    .padding(.vertical, 8)
                     MenuItemRowView(name: item.name, price: item.price)
-                } 
-            }
-            
-            Section {
-                VStack {
-//                    HStack {
-//                        Text("Total Items:")
-//                        Spacer()
-//                        Text("\(getTotalItems())")
-//                            .foregroundColor(.secondary)
-//                    }
-                    HStack {
-                        Text("Premium Items:")
-                        Spacer()
-                        Text("\(premiumItemCount)")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    HStack {
-                        Text("Regular Items:")
-                        Spacer()
-                        Text("\(regularItemCount)")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    HStack {
-                        Text("Total Price:")
-                        Spacer()
-                        Text("$\(totaalPrice, specifier:"%.2f")")
-                            .foregroundColor(.secondary)
-                    }
-                    
-//                    HStack {
-//                        Text("Highest Price:")
-//                        Spacer()
-//                        Text("$\(highestPrice(), specifier: "%.2f")")
-//                            .foregroundColor(.secondary)
-//                    }
-//                    
-//                    HStack {
-//                        Text("Lowest Price:")
-//                        Spacer()
-//                        Text("$\(lowestPrice(), specifier: "%.2f")")
-//                            .foregroundColor(.secondary)
-//                    }
-//                    
-//                    HStack {
-//                        Text("Average Price:")
-//                        Spacer()
-//                        Text("$\(averagePrice, specifier:"%.2f")")
-//                            .foregroundColor(.secondary)
-//                    }
-                    
                 }
-            } .padding()
+            }
         }
+        
+        Section {
+            VStack {
+                HStack {
+                    Text("High Score Tasks:")
+                    Spacer()
+                    Text("\(premiumItemCount)")
+                        .foregroundColor(.secondary)
+                }
+                
+                HStack {
+                    Text("Low Score Tasks:")
+                    Spacer()
+                    Text("\(regularItemCount)")
+                        .foregroundColor(.secondary)
+                }
+                
+                HStack {
+                    Text("Total Composite Score:")
+                    Spacer()
+                    Text("\(totalScore, specifier:"%.2f")")
+                        .foregroundColor(.secondary)
+                }
+            }
+        } .padding()
+        .navigationBarTitle("Task Analytics")
     }
 }
 
